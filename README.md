@@ -23,6 +23,8 @@ python3 plot_metrics.py
 cd ../reports
 pandoc scaling_analysis.md -o scaling_summary.pdf
 
+```
+
 
 ## Objective
 Evaluate the **strong scaling behavior** of an MPI-based stencil computation by measuring runtime, speedup,
