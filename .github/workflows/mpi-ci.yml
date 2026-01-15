@@ -1,0 +1,78 @@
+# ----------------------------------------------------------------------
+# File: mpi-ci.yml
+# Author: Samira Babalou
+# Date: 2026-01-15
+# Purpose: GitHub Actions CI workflow to build and test HPC MPI code
+# Features: Linting, unit testing, build, MPI execution, plot generation, cleanup, artifact upload
+# ----------------------------------------------------------------------
+name: MPI Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repository
+      - uses: actions/checkout@v3
+
+      # Step 2: Install dependencies
+      - name: Install dependencies
+        run: |
+          # Update package list
+          sudo apt-get update
+          # Install build tools, MPI, Python, pip, LaTeX (optional for PDF)
+          sudo apt-get install -y build-essential openmpi-bin libopenmpi-dev python3 python3-pip python3-venv texlive-latex-base texlive-fonts-recommended texlive-latex-extra
+          # Upgrade pip
+          pip install --upgrade pip
+          # Install Python packages: linting, testing, plotting
+          pip install matplotlib flake8 pytest
+
+      # Step 3: Cleanup previous build artifacts
+      - name: Cleanup old binaries and outputs
+        run: |
+          rm -rf mpi-scaling/build/*
+          rm -rf mpi-scaling/performance/*.txt
+          rm -rf mpi-scaling/reports/figures/*
+
+      # Step 4: Lint Python scripts
+      - name: Python lint check
+        run: flake8 mpi-scaling/performance/
+
+      # Step 5: Run Python unit tests
+      - name: Python unit tests
+        run: pytest mpi-scaling/performance/tests/
+
+      # Step 6: Compile MPI source code
+      - name: Compile MPI code
+        run: mpicc mpi-scaling/src/stencil_mpi.c -O3 -o mpi-scaling/build/stencil_mpi
+
+      # Step 7: Run single MPI test
+      - name: Run MPI test
+        run: mpirun -np 2 mpi-scaling/build/stencil_mpi
+
+      # Step 8: Run scaling experiments and save outputs
+      - name: Run MPI scaling experiments
+        run: bash mpi-scaling/run/run_scaling.sh
+
+      # Step 9: Generate performance plots
+      - name: Generate runtime plots
+        run: python3 mpi-scaling/performance/plot_metrics.py
+
+      # Step 10: Optional: generate PDF summary from Markdown
+      - name: Generate PDF summary
+        run: pandoc mpi-scaling/reports/scaling_analysis.md -o mpi-scaling/reports/scaling_summary.pdf
+
+      # Step 11: Upload results and figures as artifacts
+      - name: Upload runtime outputs and plots
+        uses: actions/upload-artifact@v3
+        with:
+          name: mpi-output
+          path: |
+            mpi-scaling/performance/*.txt
+            mpi-scaling/reports/figures/*
+            mpi-scaling/reports/scaling_summary.pdf
