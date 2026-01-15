@@ -22,7 +22,6 @@ python3 plot_metrics.py
 # Generate PDF summary
 cd ../reports
 pandoc scaling_analysis.md -o scaling_summary.pdf
-
 ```
 
 
@@ -100,3 +99,11 @@ cd ../performance
 python3 plot_metrics.py
 cd ../reports
 pandoc scaling_analysis.md -o scaling_summary.pdf
+```
+
+## Notes
+
+- All scripts contain detailed comments and usage instructions.
+- GitHub Actions workflow (`.github/workflows/mpi-ci.yml`) automatically builds and tests the code.
+- Slurm scripts (`run/slurm_job.sh`) demonstrate HPC cluster execution.
+- `scaling_analysis.md` provides a textual summary and interpretation of results for reproducibility.
