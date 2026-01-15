@@ -1,5 +1,29 @@
 # MPI Scaling Portfolio Project
 
+## Quickstart
+Run the project locally or in Docker with these steps:
+
+### Using Docker (recommended)
+```bash
+# Build the Docker image (run from repo root)
+docker build -t hpc-portfolio .
+
+# Start an interactive container
+docker run -it hpc-portfolio
+
+# Inside the container, go to the run folder and execute scaling experiments
+cd mpi-scaling/run
+bash run_scaling.sh
+
+# Generate plots
+cd ../performance
+python3 plot_metrics.py
+
+# Generate PDF summary
+cd ../reports
+pandoc scaling_analysis.md -o scaling_summary.pdf
+
+
 ## Objective
 Evaluate the **strong scaling behavior** of an MPI-based stencil computation by measuring runtime, speedup,
 and parallel efficiency as the number of MPI processes increases.
