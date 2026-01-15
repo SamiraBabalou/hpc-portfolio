@@ -67,13 +67,13 @@ The following plots are generated automatically from scaling experiments using `
 and stored in `reports/figures/`.
 
 ### Runtime vs Number of MPI Processes
-![runtime_vs_np](reports/figures/runtime_vs_np.png)
+![runtime_vs_np](mpi-scaling/reports/figures/runtime_vs_np.png)
 
 ### Speedup vs Number of MPI Processes
-![speedup_vs_np](reports/figures/speedup_vs_np.png)
+![speedup_vs_np](mpi-scaling/reports/figures/speedup_vs_np.png)
 
 ### Parallel Efficiency vs Number of MPI Processes
-![efficiency_vs_np](reports/figures/efficiency_vs_np.png)
+![efficiency_vs_np](mpi-scaling/reports/figures/efficiency_vs_np.png)
 
 These figures illustrate the trade-offs between computation and communication as parallelism increases.
 
