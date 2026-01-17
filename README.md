@@ -1,5 +1,18 @@
 # MPI Scaling Portfolio Project
 
+## Overview
+
+This repository presents a comprehensive analysis of the strong scaling behavior of an MPI-based stencil code. The project is designed to demonstrate reproducible performance measurement and interpretation on parallel systems using MPI.
+
+It includes:
+
+- An MPI stencil implementation in C for parallel computation
+- Scripts to automate strong scaling experiments across multiple MPI process counts
+- Python tools for computing performance metrics (runtime, speedup, efficiency)
+- Plotting and PDF reporting of results to support quantitative analysis
+- CI configuration for automated building, testing, and artifact generation
+
+
 ## Quickstart
 Run the project locally or in Docker with these steps:
 
