@@ -15,13 +15,13 @@
 # ----------------------------------------------------------------------
 
 import matplotlib.pyplot as plt  # library to create plots
-import glob                       # to find all runtime files
-import os                         # to handle file paths
+import glob  # to find all runtime files
+import os  # to handle file paths
 
 # -------------------------------
 # Set folder paths
 # -------------------------------
-performance_dir = "."                # current folder with runtime txt files
+performance_dir = "."  # current folder with runtime txt files
 figures_dir = "../reports/figures"  # where plots will be saved
 
 # Create figures folder if it doesn't exist
@@ -37,7 +37,7 @@ runtimes = {}
 for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
     # Extract number of processes (NP) from filename
     try:
-        NP = int(f.split("_")[2].replace("proc.txt",""))
+        NP = int(f.split("_")[2].replace("proc.txt", ""))
     except Exception as e:
         print(f"Warning: Could not extract NP from filename {f}: {e}")
         continue
@@ -78,36 +78,36 @@ efficiency = [s / n for s, n in zip(speedup, NPs)]
 # Plot runtime vs number of MPI processes
 # -------------------------------
 plt.figure()
-plt.plot(NPs, times, 'o-', label='Runtime (s)')
-plt.xlabel('Number of MPI Processes')
-plt.ylabel('Runtime (s)')
-plt.title('MPI Stencil Runtime Scaling')
+plt.plot(NPs, times, "o-", label="Runtime (s)")
+plt.xlabel("Number of MPI Processes")
+plt.ylabel("Runtime (s)")
+plt.title("MPI Stencil Runtime Scaling")
 plt.grid(True)
-plt.savefig(os.path.join(figures_dir, 'runtime_vs_np.png'))
+plt.savefig(os.path.join(figures_dir, "runtime_vs_np.png"))
 
 # -------------------------------
 # Plot speedup vs number of MPI processes
 # -------------------------------
 plt.figure()
-plt.plot(NPs, speedup, 'o-', label='Speedup')
-plt.plot(NPs, NPs, 'k--', label='Ideal speedup')  # reference line for perfect scaling
-plt.xlabel('Number of MPI Processes')
-plt.ylabel('Speedup')
-plt.title('MPI Stencil Speedup')
+plt.plot(NPs, speedup, "o-", label="Speedup")
+plt.plot(NPs, NPs, "k--", label="Ideal speedup")  # reference line for perfect scaling
+plt.xlabel("Number of MPI Processes")
+plt.ylabel("Speedup")
+plt.title("MPI Stencil Speedup")
 plt.grid(True)
 plt.legend()
-plt.savefig(os.path.join(figures_dir, 'speedup_vs_np.png'))
+plt.savefig(os.path.join(figures_dir, "speedup_vs_np.png"))
 
 # -------------------------------
 # Plot parallel efficiency vs number of MPI processes
 # -------------------------------
 plt.figure()
-plt.plot(NPs, efficiency, 'o-', label='Efficiency')
-plt.xlabel('Number of MPI Processes')
-plt.ylabel('Parallel Efficiency')
-plt.title('MPI Stencil Efficiency')
+plt.plot(NPs, efficiency, "o-", label="Efficiency")
+plt.xlabel("Number of MPI Processes")
+plt.ylabel("Parallel Efficiency")
+plt.title("MPI Stencil Efficiency")
 plt.grid(True)
-plt.savefig(os.path.join(figures_dir, 'efficiency_vs_np.png'))
+plt.savefig(os.path.join(figures_dir, "efficiency_vs_np.png"))
 
 # -------------------------------
 # Done

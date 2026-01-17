@@ -19,7 +19,7 @@ runtimes = {}
 # Find all scaling runtime files
 for f in glob.glob("scaling_runtime_*proc.txt"):
     # Extract number of MPI processes from filename
-    NP = int(f.split("_")[2].replace("proc.txt",""))
+    NP = int(f.split("_")[2].replace("proc.txt", ""))
     with open(f) as file:
         line = file.readline()
         runtime = float(line.split(":")[1].strip().split()[0])

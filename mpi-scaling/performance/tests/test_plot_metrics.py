@@ -8,6 +8,7 @@
 import os
 import subprocess
 
+
 def test_plot_metrics_runs():
     # Run the script
     subprocess.run(["python3", "../plot_metrics.py"], check=True)
