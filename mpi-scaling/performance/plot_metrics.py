@@ -3,7 +3,7 @@
 # File: plot_metrics.py
 # Author: Samira Babalou
 # Date: 2026-01-15
-# Purpose: Generate runtime, speedup, and 
+# Purpose: Generate runtime, speedup, and
 # efficiency plots from MPI scaling experiments
 # Usage:
 #   cd mpi-scaling/performance
