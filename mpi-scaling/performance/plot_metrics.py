@@ -29,9 +29,12 @@ os.makedirs(figures_dir, exist_ok=True)
 # Read all scaling runtime files
 # -------------------------------
 runtimes = {}
-for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
+files = glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt"))
+print(f"Found runtime files: {files}")  # Diagnostic for CI
+
+for f in files:
     try:
-        filename = os.path.basename(f)  # <-- just the file, no path
+        filename = os.path.basename(f)
         NP = int(filename.split("_")[2].replace("proc.txt", ""))
     except Exception as e:
         print(f"Warning: Could not extract NP from filename {f}: {e}")
@@ -42,17 +45,21 @@ for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
             line = line.strip()
             if not line:
                 continue  # skip empty lines
-            # Try parsing either "key: value" or just a number
             try:
+                # Accept "key: value" or just a number
                 if ":" in line:
                     runtime = float(line.split(":")[1].strip().split()[0])
                 else:
                     runtime = float(line.split()[0])
                 runtimes[NP] = runtime
-                break  # stop after reading the first valid line
+                break  # first valid line only
             except Exception as e:
                 print(f"Warning: Could not parse runtime in {f}: {e}")
                 continue
+
+if not runtimes:
+    print("Error: No valid runtime files found. Cannot compute speedup.")
+    exit(1)
 
 # -------------------------------
 # Compute speedup and parallel efficiency
@@ -61,8 +68,8 @@ NPs = sorted(runtimes.keys())
 times = [runtimes[n] for n in NPs]
 
 if 2 not in runtimes:
-    print("Error: Baseline runtime for 2 processes not found. "
-          "Cannot compute speedup.")
+    print("Error: Baseline runtime for 2 processes not found. " \
+    "Cannot compute speedup.")
     exit(1)
 
 T2 = runtimes[2]
