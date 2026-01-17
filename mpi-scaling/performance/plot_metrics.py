@@ -23,7 +23,6 @@ import os
 # -------------------------------
 performance_dir = os.path.dirname(os.path.abspath(__file__))
 figures_dir = os.path.join(performance_dir, "../reports/figures")
-
 os.makedirs(figures_dir, exist_ok=True)
 
 # -------------------------------
@@ -36,21 +35,23 @@ for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
     except Exception as e:
         print(f"Warning: Could not extract NP from filename {f}: {e}")
         continue
+
     with open(f) as file:
-        line = file.readline().strip()
-        if not line:
-            print(f"Warning: File {f} is empty")
-            continue
-        parts = line.split(":")
-        if len(parts) < 2:
-            print(f"Warning: Unexpected format in {f}: {line}")
-            continue
-        try:
-            runtime = float(parts[1].strip().split()[0])
-        except Exception as e:
-            print(f"Warning: Could not parse runtime in {f}: {e}")
-            continue
-        runtimes[NP] = runtime
+        for line in file:
+            line = line.strip()
+            if not line:
+                continue  # skip empty lines
+            # Try parsing either "key: value" or just a number
+            try:
+                if ":" in line:
+                    runtime = float(line.split(":")[1].strip().split()[0])
+                else:
+                    runtime = float(line.split()[0])
+                runtimes[NP] = runtime
+                break  # stop after reading the first valid line
+            except Exception as e:
+                print(f"Warning: Could not parse runtime in {f}: {e}")
+                continue
 
 # -------------------------------
 # Compute speedup and parallel efficiency
