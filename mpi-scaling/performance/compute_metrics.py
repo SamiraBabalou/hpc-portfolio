@@ -3,8 +3,10 @@ File: compute_metrics.py
 Author: Samira Babalou
 Date: 2026-01-15
 Purpose:
-    Compute speedup and parallel efficiency for MPI stencil scaling experiments.
-    Reads all scaling_runtime_Xproc.txt files in performance folder.
+    Compute speedup and parallel efficiency for
+    MPI stencil scaling experiments.
+    Reads all scaling_runtime_Xproc.txt files in
+    performance folder.
 Usage:
     python3 compute_metrics.py > metrics_results.txt
 """
