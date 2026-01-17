@@ -9,11 +9,11 @@
 import os
 import subprocess
 
-
 def test_plot_metrics_runs():
-    # Run the script from repo root
+    # Run plot_metrics.py in the performance directory
     subprocess.run(
-        ["python3", "mpi-scaling/performance/plot_metrics.py"],
+        ["python3", "plot_metrics.py"],
+        cwd="mpi-scaling/performance",  # <-- ensure it runs in the right folder
         check=True
     )
 
@@ -24,5 +24,6 @@ def test_plot_metrics_runs():
         "efficiency_vs_np.png",
     ]
     for fig in figures:
-        path = os.path.join("mpi-scaling/reports/figures", fig)
-        assert os.path.exists(path), f"{fig} was not generated"
+        # Figures are saved under reports/figures relative to performance
+        fig_path = os.path.join("mpi-scaling/reports/figures", fig)
+        assert os.path.exists(fig_path), f"{fig} was not generated"
