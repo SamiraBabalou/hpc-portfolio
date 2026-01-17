@@ -10,10 +10,9 @@ import os
 import subprocess
 
 def test_plot_metrics_runs():
-    # Run plot_metrics.py in the performance directory
     subprocess.run(
         ["python3", "plot_metrics.py"],
-        cwd="mpi-scaling/performance",  # <-- ensure it runs in the right folder
+        cwd="mpi-scaling/performance",  
         check=True
     )
 
