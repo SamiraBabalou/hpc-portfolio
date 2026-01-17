@@ -11,9 +11,9 @@ import subprocess
 
 
 def test_plot_metrics_runs():
-    # Run the script
+    # Run the script from repo root
     subprocess.run(
-        ["python3", "../plot_metrics.py"],
+        ["python3", "mpi-scaling/performance/plot_metrics.py"],
         check=True
     )
 
@@ -21,8 +21,8 @@ def test_plot_metrics_runs():
     figures = [
         "runtime_vs_np.png",
         "speedup_vs_np.png",
-        "efficiency_vs_np.png"
+        "efficiency_vs_np.png",
     ]
     for fig in figures:
-        path = f"../reports/figures/{fig}"
+        path = os.path.join("mpi-scaling/reports/figures", fig)
         assert os.path.exists(path), f"{fig} was not generated"
