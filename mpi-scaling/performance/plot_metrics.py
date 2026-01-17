@@ -31,7 +31,8 @@ os.makedirs(figures_dir, exist_ok=True)
 runtimes = {}
 for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
     try:
-        NP = int(f.split("_")[2].replace("proc.txt", ""))
+        filename = os.path.basename(f)  # <-- just the file, no path
+        NP = int(filename.split("_")[2].replace("proc.txt", ""))
     except Exception as e:
         print(f"Warning: Could not extract NP from filename {f}: {e}")
         continue
