@@ -68,8 +68,10 @@ NPs = sorted(runtimes.keys())
 times = [runtimes[n] for n in NPs]
 
 if 2 not in runtimes:
-    print("Error: Baseline runtime for 2 processes not found. " \
-    "Cannot compute speedup.")
+    print(
+        "Error: Baseline runtime for 2 processes not found. "
+        "Cannot compute speedup."
+    )
     exit(1)
 
 T2 = runtimes[2]
