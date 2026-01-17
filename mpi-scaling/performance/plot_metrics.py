@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------
 # File: plot_metrics.py
 # Author: Samira Babalou
 # Date: 2026-01-15
@@ -12,7 +12,7 @@
 # Notes:
 #   - Requires matplotlib installed
 #   - Reads files named scaling_runtime_<NP>proc.txt
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------
 
 import matplotlib.pyplot as plt  # library to create plots
 import glob  # to find all runtime files
@@ -51,7 +51,7 @@ for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
             print(f"Warning: Unexpected format in {f}: {line}")
             continue
         try:
-            runtime = float(parts[1].strip().split()[0])  # extract runtime value
+            runtime = float(parts[1].strip().split()[0])
         except Exception as e:
             print(f"Warning: Could not parse runtime in {f}: {e}")
             continue
@@ -67,7 +67,10 @@ times = [runtimes[n] for n in NPs]
 # Baseline is 2 processes
 # -------------------------------
 if 2 not in runtimes:
-    print("Error: Baseline runtime for 2 processes not found. Cannot compute speedup.")
+    print(
+        "Error: Baseline runtime for 2 processes not found. "
+        "Cannot compute speedup."
+    )
     exit(1)
 
 T2 = runtimes[2]
