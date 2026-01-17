@@ -31,9 +31,18 @@ for f in glob.glob("scaling_runtime_*proc.txt"):
 # Baseline: smallest NP
 T_baseline = runtimes[min(runtimes.keys())]
 
+# Print header
 print(f"{'NP':>5} {'Runtime(s)':>12} {'Speedup':>10} {'Efficiency':>10}")
+
+# Loop through sorted NPs
 for NP in sorted(runtimes.keys()):
     runtime = runtimes[NP]
     speedup = T_baseline / runtime
     efficiency = speedup / NP
-    print(f"{NP:>5} {runtime:>12.6f} {speedup:>10.3f} {efficiency:>10.3f}")
+    # Break long line for flake8 compliance
+    print(
+        f"{NP:>5} "
+        f"{runtime:>12.6f} "
+        f"{speedup:>10.3f} "
+        f"{efficiency:>10.3f}"
+    )

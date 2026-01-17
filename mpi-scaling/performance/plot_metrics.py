@@ -46,7 +46,6 @@ for f in glob.glob(os.path.join(performance_dir, "scaling_runtime_*proc.txt")):
         if not line:
             print(f"Warning: File {f} is empty")
             continue
-        # Example line: Runtime: 0.002977 seconds
         parts = line.split(":")
         if len(parts) < 2:
             print(f"Warning: Unexpected format in {f}: {line}")
@@ -70,6 +69,7 @@ times = [runtimes[n] for n in NPs]
 if 2 not in runtimes:
     print("Error: Baseline runtime for 2 processes not found. Cannot compute speedup.")
     exit(1)
+
 T2 = runtimes[2]
 speedup = [T2 / t for t in times]
 efficiency = [s / n for s, n in zip(speedup, NPs)]
@@ -90,7 +90,7 @@ plt.savefig(os.path.join(figures_dir, "runtime_vs_np.png"))
 # -------------------------------
 plt.figure()
 plt.plot(NPs, speedup, "o-", label="Speedup")
-plt.plot(NPs, NPs, "k--", label="Ideal speedup")  # reference line for perfect scaling
+plt.plot(NPs, NPs, "k--", label="Ideal speedup")  # reference line
 plt.xlabel("Number of MPI Processes")
 plt.ylabel("Speedup")
 plt.title("MPI Stencil Speedup")
