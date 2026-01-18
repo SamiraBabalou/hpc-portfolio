@@ -13,8 +13,9 @@
 #   Demonstrates how runtime changes as number of MPI processes increases
 # ----------------------------------------------------------------------
 
-BINARY="../build/stencil_mpi"
-OUTPUT_DIR="../performance"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BINARY="$SCRIPT_DIR/../build/stencil_mpi"
+OUTPUT_DIR="$SCRIPT_DIR/../performance"
 
 # Ensure output directory exists
 mkdir -p "$OUTPUT_DIR"
