@@ -16,9 +16,14 @@
 BINARY="../build/stencil_mpi"
 OUTPUT_DIR="../performance"
 
+# Ensure output directory exists
+mkdir -p "$OUTPUT_DIR"
+
 # Loop over multiple MPI process counts
 for NP in 2 4 8
 do
     echo "Running stencil_mpi with $NP MPI processes..."
-    mpirun -np $NP $BINARY | tee $OUTPUT_DIR/scaling_runtime_${NP}proc.txt
+    mpirun --oversubscribe -np $NP $BINARY \
+    | tee $OUTPUT_DIR/scaling_runtime_${NP}proc.txt
+
 done
