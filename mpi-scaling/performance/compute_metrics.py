@@ -12,36 +12,49 @@ Usage:
 """
 
 import glob
+import os
 
 # -----------------------------
-# Step 1: Collect runtimes
+# Step 1: Locate this script's directory
+# -----------------------------
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# -----------------------------
+# Step 2: Collect runtimes
 # -----------------------------
 runtimes = {}
 
-# Find all scaling runtime files
-for f in glob.glob("scaling_runtime_*proc.txt"):
+# Look for runtime files in the same directory as this script
+pattern = os.path.join(SCRIPT_DIR, "scaling_runtime_*proc.txt")
+
+for f in glob.glob(pattern):
     # Extract number of MPI processes from filename
-    NP = int(f.split("_")[2].replace("proc.txt", ""))
+    NP = int(os.path.basename(f).split("_")[2].replace("proc.txt", ""))
     with open(f) as file:
         line = file.readline()
         runtime = float(line.split(":")[1].strip().split()[0])
         runtimes[NP] = runtime
 
 # -----------------------------
-# Step 2: Compute speedup and efficiency
+# Step 3: Safety check
 # -----------------------------
-# Baseline: smallest NP
+if not runtimes:
+    raise RuntimeError(
+        "No scaling_runtime_*proc.txt files found. "
+        "Did you run run_scaling.sh first?"
+    )
+
+# -----------------------------
+# Step 4: Compute speedup and efficiency
+# -----------------------------
 T_baseline = runtimes[min(runtimes.keys())]
 
-# Print header
 print(f"{'NP':>5} {'Runtime(s)':>12} {'Speedup':>10} {'Efficiency':>10}")
 
-# Loop through sorted NPs
 for NP in sorted(runtimes.keys()):
     runtime = runtimes[NP]
     speedup = T_baseline / runtime
     efficiency = speedup / NP
-    # Break long line for flake8 compliance
     print(
         f"{NP:>5} "
         f"{runtime:>12.6f} "
