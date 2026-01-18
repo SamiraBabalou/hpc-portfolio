@@ -43,31 +43,35 @@ jobs:
       - name: Python lint check
         run: flake8 mpi-scaling/performance/
 
-      # Step 5: Run Python unit tests
-      - name: Python unit tests
-        run: pytest mpi-scaling/performance/tests/
-
-      # Step 6: Compile MPI source code
+      # Step 5: Compile MPI source code
       - name: Compile MPI code
         run: mpicc mpi-scaling/src/stencil_mpi.c -O3 -o mpi-scaling/build/stencil_mpi
 
-      # Step 7: Run single MPI test
+      # Step 6: Run single MPI test
       - name: Run MPI test
         run: mpirun -np 2 mpi-scaling/build/stencil_mpi
 
-      # Step 8: Run scaling experiments and save outputs
+      # Step 7: Run scaling experiments and save outputs
       - name: Run MPI scaling experiments
         run: bash mpi-scaling/run/run_scaling.sh
 
-      # Step 9: Generate performance plots
+      # Step 8: Compute performance metrics
+      - name: Compute performance metrics
+        run: python3 mpi-scaling/performance/compute_metrics.py
+
+      # Step 9: Run Python unit tests
+      - name: Python unit tests
+        run: pytest mpi-scaling/performance/tests/
+
+      # Step 10: Generate performance plots
       - name: Generate runtime plots
         run: python3 mpi-scaling/performance/plot_metrics.py
 
-      # Step 10: Optional: generate PDF summary from Markdown
+      # Step 11: Optional: generate PDF summary from Markdown
       - name: Generate PDF summary
         run: pandoc mpi-scaling/reports/scaling_analysis.md -o mpi-scaling/reports/scaling_summary.pdf
 
-      # Step 11: Upload results and figures as artifacts
+      # Step 12: Upload results and figures as artifacts
       - name: Upload runtime outputs and plots
         uses: actions/upload-artifact@v4
         with:
