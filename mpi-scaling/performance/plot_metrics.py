@@ -58,8 +58,8 @@ for f in files:
                 continue
 
 if not runtimes:
-    print("Error: No valid runtime files found. Cannot compute speedup.")
-    exit(1)
+    print("Warning: No runtime files — skipping plot.")
+    exit(0)
 
 # -------------------------------
 # Compute speedup and parallel efficiency
